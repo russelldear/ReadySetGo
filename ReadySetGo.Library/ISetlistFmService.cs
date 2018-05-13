@@ -7,6 +7,6 @@ namespace ReadySetGo.Library
     {
         Artist SearchArtist(string artistName);
 
-        List<Setlist> GetSetlists(string mbid);
+        List<Setlist> GetSetlists(string mbid, int concertCount, out int actualCount);
     }
 }

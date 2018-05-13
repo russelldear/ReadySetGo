@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReadySetGo.Library.DataContracts;
 
-namespace ReadySetGo.Models
+namespace ReadySetGo.Library.DataContracts
 {
-    public class HomeModel
+    public class PlaylistResult
     {
         public string ArtistName { get; set; }
 

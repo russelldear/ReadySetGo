@@ -3,6 +3,7 @@ using ReadySetGo.Library.DataContracts;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace ReadySetGo.Library
 {
@@ -30,13 +31,34 @@ namespace ReadySetGo.Library
             return searchArtistResponse.Artists.First();
         }
 
-        public List<Setlist> GetSetlists(string mbid)
+        public List<Setlist> GetSetlists(string mbid, int concertCount, out int actualCount)
         {
+            var result = new List<Setlist>();
+                
             var response = Client.GetStringAsync($"https://api.setlist.fm/rest/1.0/artist/{mbid}/setlists").Result;
 
             var setlistResponse = JsonConvert.DeserializeObject<SetlistResponse>(response);
 
-            return setlistResponse.Setlists;
+            result.AddRange(setlistResponse.Setlists);
+
+            var totalConcerts = setlistResponse.Total;
+
+            var pageCounter = 1;
+
+            while (result.Count < concertCount && (pageCounter * 20) < totalConcerts)
+            {
+                pageCounter++;
+
+                response = Client.GetStringAsync($"https://api.setlist.fm/rest/1.0/artist/{mbid}/setlists?p={pageCounter}").Result;
+
+                setlistResponse = JsonConvert.DeserializeObject<SetlistResponse>(response);
+
+                result.AddRange(setlistResponse.Setlists);
+            }
+
+            actualCount = Math.Min(result.Count, concertCount);
+
+            return result.Take(concertCount).ToList();
         }
     }
 }

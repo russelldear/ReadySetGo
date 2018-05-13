@@ -27,13 +27,14 @@ namespace ReadySetGo.Controllers
         [HttpPost]
         public ActionResult Post(HomeModel model, string returnUrl)
         {
-            var songs = _setlistBuilder.CreateSetlist(model.ArtistName, model.ConcertCount);
+            var playlistResult = _setlistBuilder.CreateSetlist(model.ArtistName, model.ConcertCount);
 
             return View("Index", new HomeModel
             {
-                ArtistName = WebUtility.UrlDecode(model.ArtistName),
+                ArtistName = WebUtility.UrlDecode(playlistResult.ArtistName),
                 ConcertCount = model.ConcertCount,
-                Songs = songs
+                ActualCount = playlistResult.ActualCount,
+                Songs = playlistResult.Songs
             });
         }
 

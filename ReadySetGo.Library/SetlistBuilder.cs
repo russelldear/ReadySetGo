@@ -14,19 +14,25 @@ namespace ReadySetGo.Library
             _setlistFmService = setlistFmService;
         }
 
-        public List<Song> CreateSetlist(string artistName, int concertCount)
+        public PlaylistResult CreateSetlist(string artistName, int concertCount)
         {
+            int actualCount;
+
             var artist = _setlistFmService.SearchArtist(artistName);
 
-            var setlists = _setlistFmService.GetSetlists(artist.Mbid)
-                                            .Where(s => s.SetlistSets != null && s.SetlistSets.Sets.Any())
-                                            .Take(concertCount);
+            var setlists = _setlistFmService.GetSetlists(artist.Mbid, concertCount, out actualCount)
+                                            .Where(s => s.SetlistSets != null && s.SetlistSets.Sets.Any());
 
             var songSetlists = GetSongsForSetlists(setlists);
 
-            var result = RiffleAndDeduplicate(songSetlists);
+            var songs = RiffleAndDeduplicate(songSetlists);
 
-            return result;
+            return new PlaylistResult
+            {
+                ArtistName = artist.Name,
+                Songs = songs,
+                ActualCount = actualCount
+            };
         }
 
         private static List<List<Song>> GetSongsForSetlists(IEnumerable<Setlist> setlists)

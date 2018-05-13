@@ -39,7 +39,7 @@
         </label>
 
         <label>
-            Number of concerts: 
+            Maximum concerts to include: 
             @Html.TextBoxFor(m => m.ConcertCount)
         </label>
         <input type="submit" value="Go" />
@@ -51,7 +51,8 @@
     <hr />  
     <div class="outputDetails">
         <p>
-            Here's a playlist of songs @Model.ArtistName might play, based on the last @Model.ConcertCount concerts:
+            Here's a playlist of songs @Model.ArtistName might play, based on the last @Model.ActualCount concerts 
+            @(Model.ActualCount < Model.ConcertCount ? "(that's all there is!)" : ""):
         </p>
 
         <table class="playlist table-striped">
@@ -64,7 +65,7 @@
             
             <tr>
                 <td class="songName">@song.Name</td>
-                <td class="songCount">@(song.DuplicateCount + 1) / @Model.ConcertCount</td>
+                <td class="songCount">@(song.DuplicateCount + 1) / @Model.ActualCount</td>
             </tr>
             
             }
