@@ -4,7 +4,7 @@ using ReadySetGo.Library.DataContracts;
 
 namespace ReadySetGo.Models
 {
-    public class PlaylistModel
+    public class HomeModel
     {
         public string ArtistName { get; set; }
 

@@ -1,19 +1,68 @@
-﻿<style>
+﻿@model HomeModel
+
+<style>
     .inputDetails {
         padding-top: 20px;
     }
+    
+    .songName {
+        padding: 5px 20px 5px 10px;
+        margin: 0;
+    }
+
+    table.playlist {
+        width: 600px;
+    }
+
+    th, td {
+        valign: middle;
+        width: 50%;
+    }
+
+    .songName {
+        
+    }
+
+    .songCount {
+        text-align: center;
+    }
+    
 </style>
 
 <div class="inputDetails">
     <label>
         Artist Name: 
-        <input id="txtName" type="text" value="Taylor Swift" />
+        <input id="txtName" type="text" value="@(Model != null ? Model.ArtistName : "Taylor Swift")" />
     </label>
     <input id="btnGo" type="button" value="Go" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script>
         $("#btnGo").click(function(){
-            location = "/Playlist/Index/" + encodeURI($("#txtName").val());
+            location = "/Home/Index/" + encodeURI($("#txtName").val());
         })
     </script>
 </div>
+
+@if (Model != null) {
+    <div class="outputDetails">
+        <p>
+            Here's a playlist of songs @Model.ArtistName might play, based on the last five concerts:
+        </p>
+
+        <table class="playlist table-striped">
+            <tr>
+                <th class="songName">Song Name</th>
+                <th class="songCount">Times Played</th>
+            </tr>
+            
+            @foreach (var song in Model.Songs) {
+            
+            <tr>
+                <td class="songName">@song.Name</td>
+                <td class="songCount">@(song.DuplicateCount + 1) / 5</td>
+            </tr>
+            
+            }
+        </table>
+    </div>
+}
