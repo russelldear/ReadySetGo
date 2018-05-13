@@ -62,7 +62,7 @@ namespace ReadySetGo.Tests
 
         private void When_I_deduplicate()
         {
-            _songs.RemoveDuplicates();
+            //_songs.RemoveDuplicates();
         }
 
         private void There_are_no_duplicate_songs_left()

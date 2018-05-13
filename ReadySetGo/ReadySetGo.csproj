@@ -16,9 +16,6 @@
     <Content Remove="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Playlist\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ReadySetGo.Library\ReadySetGo.Library.csproj" />
   </ItemGroup>
 </Project>

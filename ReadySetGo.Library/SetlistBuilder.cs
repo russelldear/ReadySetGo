@@ -20,34 +20,57 @@ namespace ReadySetGo.Library
 
             var setlists = _setlistFmService.GetSetlists(artist.Mbid).Where(s => s.SetlistSets != null && s.SetlistSets.Sets.Any()).Take(5);
 
-            var songs = setlists
-                .SelectMany(sl => sl.SetlistSets.Sets)
-                .SelectMany(s => s.Songs)
-                .Where(song => song.Cover == null && song.Tape == null)
-                .ToList();
+            var songSetlists = GetSongsForSetlists(setlists);
 
-            songs.RemoveDuplicates();
+            var result = RiffleAndDeduplicate(songSetlists);
 
-            return songs;
+            return result;
         }
-    }
 
-    public static class Extensions
-    {
-        public static void RemoveDuplicates (this List<Song> songs)
+        private static List<List<Song>> GetSongsForSetlists(IEnumerable<Setlist> setlists)
         {
-            for (var i = 0; i < songs.Count; i++)
+            var songSetlists = new List<List<Song>>();
+
+            foreach (var setlist in setlists)
             {
-                for (int j = 0; j < songs.Count; j++)
+                var songSetlist = setlist.SetlistSets.Sets
+                                         .SelectMany(s => s.Songs)
+                                         .Where(song => song.Cover == null && song.Tape == null)
+                                         .ToList();
+
+                songSetlists.Add(songSetlist);
+            }
+
+            return songSetlists;
+        }
+
+        private static List<Song> RiffleAndDeduplicate(List<List<Song>> songSetlists)
+        {
+            var maxSongsInASetlist = songSetlists.Max(l => l.Count);
+
+            var result = new List<Song>();
+
+            for (var songCounter = 0; songCounter < maxSongsInASetlist; songCounter++)
+            {
+                for (var setlistCounter = 0; setlistCounter < songSetlists.Count; setlistCounter++)
                 {
-                    if (songs[i].Name.ToUpper() == songs[j].Name.ToUpper() && i != j)
+                    if (songSetlists.Count > setlistCounter && songSetlists[setlistCounter].Count > songCounter)
                     {
-                        songs[i].DuplicateCount++;
-                        songs.RemoveAt(j);
-                        j--;
+                        var currentSong = songSetlists[setlistCounter][songCounter];
+
+                        if (result.Any(song => song.Name.ToUpper() == currentSong.Name.ToUpper()))
+                        {
+                            result.Single(song => song.Name.ToUpper() == currentSong.Name.ToUpper()).DuplicateCount++;
+                        }
+                        else
+                        {
+                            result.Add(currentSong);
+                        }
                     }
                 }
             }
+
+            return result;
         }
     }
 }
