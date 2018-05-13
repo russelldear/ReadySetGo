@@ -47,10 +47,15 @@
     }
 
     if (Model.ArtistFound.HasValue && Model.ArtistFound.Value == false) {
-    <p>
-        No artist found with that name!
-    </p>
-}
+        <p>
+            No artist found with that name!
+        </p>
+    }
+
+    using (Html.BeginForm("Spotify", "Home", FormMethod.Post))
+    {
+        <button type="submit" class="btn btn-success">Go</button>
+    }
 }
 </div>
 @if (Model.SongsFound.HasValue && Model.SongsFound.Value == false) {

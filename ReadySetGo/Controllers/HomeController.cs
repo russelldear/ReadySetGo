@@ -1,8 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using ReadySetGo.Library;
+using ReadySetGo.Library.DataContracts;
 using ReadySetGo.Models;
 
 namespace ReadySetGo.Controllers
@@ -64,6 +68,37 @@ namespace ReadySetGo.Controllers
                 ArtistFound = true,
                 SongsFound = true
             });
+        }
+
+        [HttpPost]
+        public ActionResult Spotify(HomeModel model, string returnUrl)
+        {
+            var url = $"https://accounts.spotify.com/authorize/?" +
+                "client_id=4b0fcb4ba28842529cc2cf6a001d26ab&" +
+                "response_type=code&" +
+                "redirect_uri=http%3A%2F%2Flocalhost%3A5001%2Fhome%2Fcallback&" +
+                "scope=user-read-private%20user-read-email&" +
+                "state=34fFs29kd09";
+
+            return Redirect(url);
+        }
+
+        public ActionResult Callback(string code, string state, string error)
+        {
+            var client = new HttpClient();
+
+            var body = $"client_id={"4b0fcb4ba28842529cc2cf6a001d26ab"}&client_secret={""}&grant_type=authorization_code&code={code}&redirect_uri=http%3A%2F%2Flocalhost%3A5001%2Fhome%2Fcallback";
+
+            var response = client.PostAsync("https://accounts.spotify.com/api/token", new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
+
+            using (var content = response.Content)
+            {
+                var result = content.ReadAsStringAsync().Result;
+
+                var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(result);
+            }
+
+            return Ok();
         }
 
         public IActionResult Error()
