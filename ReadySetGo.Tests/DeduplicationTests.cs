@@ -6,7 +6,7 @@ using Xunit;
 
 namespace ReadySetGo.Tests
 {
-    public class SetListBuilderTests
+    public class DeduplicationTests
     {
         private List<Song> _songs;
 

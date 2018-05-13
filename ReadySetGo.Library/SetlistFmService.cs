@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using ReadySetGo.Library.DataContracts;
 using Newtonsoft.Json;
 using System.Linq;
@@ -15,8 +14,11 @@ namespace ReadySetGo.Library
 
         public SetlistFmService()
         {
-            Client.DefaultRequestHeaders.Add("Accept", "application/json");
-            Client.DefaultRequestHeaders.Add("x-api-key", SetlistFmApiKey);
+            if (!Client.DefaultRequestHeaders.Contains("x-api-key"))
+            {
+                Client.DefaultRequestHeaders.Add("Accept", "application/json");
+                Client.DefaultRequestHeaders.Add("x-api-key", SetlistFmApiKey);
+            }
         }
 
         public Artist SearchArtist(string artistName)
