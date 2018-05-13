@@ -1,7 +1,33 @@
 ﻿@model PlaylistModel
 
-@foreach (var song in Model.Songs) {
+<style>
+    .songName {
+        padding-right: 20px;
+    }
+
+    td {
+        valign: middle;
+    }
+</style>
+
+<div>
     <p>
-        @song.Name
+        Here's a playlist of songs @Model.ArtistName might play, based on the last five concerts:
     </p>
-}
+
+    <table class="table-striped">
+        <tr>
+            <th>Song Name</th>
+            <th>Times Played</th>
+        </tr>
+        
+        @foreach (var song in Model.Songs) {
+        
+        <tr>
+            <td><p class="songName">@song.Name</p></td>
+            <td><p class="songCount">@(song.DuplicateCount + 1) / 5</p></td>
+        </tr>
+        
+        }
+    </table>
+</div>

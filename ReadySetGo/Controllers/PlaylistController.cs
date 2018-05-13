@@ -18,7 +18,7 @@ namespace ReadySetGo.Controllers
         {
             var songs = _setlistBuilder.CreateSetlist(artistName);
 
-            return View(new PlaylistModel{ Songs = songs });
+            return View(new PlaylistModel{ ArtistName = WebUtility.UrlDecode(artistName), Songs = songs });
         }
     }
 }

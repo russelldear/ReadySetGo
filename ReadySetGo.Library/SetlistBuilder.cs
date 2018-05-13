@@ -40,8 +40,9 @@ namespace ReadySetGo.Library
             {
                 for (int j = 0; j < songs.Count; j++)
                 {
-                    if (songs[i].Name == songs[j].Name && i != j)
+                    if (songs[i].Name.ToUpper() == songs[j].Name.ToUpper() && i != j)
                     {
+                        songs[i].DuplicateCount++;
                         songs.RemoveAt(j);
                         j--;
                     }

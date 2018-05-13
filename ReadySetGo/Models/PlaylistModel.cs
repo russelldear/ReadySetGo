@@ -6,9 +6,7 @@ namespace ReadySetGo.Models
 {
     public class PlaylistModel
     {
-        public PlaylistModel()
-        {
-        }
+        public string ArtistName { get; set; }
 
         public List<Song> Songs { get; set; }
     }

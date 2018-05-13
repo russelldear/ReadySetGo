@@ -64,6 +64,8 @@ namespace ReadySetGo.Library.DataContracts
 
         [JsonProperty("with", NullValueHandling = NullValueHandling.Ignore)]
         public Artist With { get; set; }
+
+        public int DuplicateCount { get; set; }
     }
 
     public partial class Tour
