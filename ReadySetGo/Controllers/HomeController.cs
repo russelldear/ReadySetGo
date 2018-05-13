@@ -15,16 +15,26 @@ namespace ReadySetGo.Controllers
             _setlistBuilder = setlistBuilder;
         }
 
-        public IActionResult Index(string artistName)
+        public IActionResult Index()
         {
-            if (string.IsNullOrWhiteSpace(artistName))
+            return View(new HomeModel
             {
-                return View();
-            }
+                ArtistName = "Taylor Swift",
+                ConcertCount = 5
+            });
+        }
 
-            var songs = _setlistBuilder.CreateSetlist(artistName);
+        [HttpPost]
+        public ActionResult Post(HomeModel model, string returnUrl)
+        {
+            var songs = _setlistBuilder.CreateSetlist(model.ArtistName, model.ConcertCount);
 
-            return View(new HomeModel { ArtistName = WebUtility.UrlDecode(artistName), Songs = songs });
+            return View("Index", new HomeModel
+            {
+                ArtistName = WebUtility.UrlDecode(model.ArtistName),
+                ConcertCount = model.ConcertCount,
+                Songs = songs
+            });
         }
 
         public IActionResult Error()

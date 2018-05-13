@@ -8,6 +8,8 @@ namespace ReadySetGo.Models
     {
         public string ArtistName { get; set; }
 
+        public int ConcertCount { get; set; }
+
         public List<Song> Songs { get; set; }
     }
 }

@@ -30,23 +30,28 @@
 </style>
 
 <div class="inputDetails">
-    <label>
-        Artist Name: 
-        <input id="txtName" type="text" value="@(Model != null ? Model.ArtistName : "Taylor Swift")" />
-    </label>
-    <input id="btnGo" type="button" value="Go" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script>
-        $("#btnGo").click(function(){
-            location = "/Home/Index/" + encodeURI($("#txtName").val());
-        })
-    </script>
-</div>
+@{
+    using (Html.BeginForm("Post", "Home", FormMethod.Post))
+    {
+        <label>
+            Artist Name: 
+            @Html.TextBoxFor(m => m.ArtistName)
+        </label>
 
-@if (Model != null) {
+        <label>
+            Number of concerts: 
+            @Html.TextBoxFor(m => m.ConcertCount)
+        </label>
+        <input type="submit" value="Go" />
+    }
+}
+</div>
+@if (Model.Songs != null) {
+    <br />
+    <hr />  
     <div class="outputDetails">
         <p>
-            Here's a playlist of songs @Model.ArtistName might play, based on the last five concerts:
+            Here's a playlist of songs @Model.ArtistName might play, based on the last @Model.ConcertCount concerts:
         </p>
 
         <table class="playlist table-striped">
@@ -59,7 +64,7 @@
             
             <tr>
                 <td class="songName">@song.Name</td>
-                <td class="songCount">@(song.DuplicateCount + 1) / 5</td>
+                <td class="songCount">@(song.DuplicateCount + 1) / @Model.ConcertCount</td>
             </tr>
             
             }

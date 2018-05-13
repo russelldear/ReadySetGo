@@ -5,6 +5,6 @@ namespace ReadySetGo.Library
 {
     public interface ISetlistBuilder
     {
-        List<Song> CreateSetlist(string artist);
+        List<Song> CreateSetlist(string artist, int concertCount);
     }
 }
