@@ -1,0 +1,10 @@
+﻿<div>
+    <input id="txtName" type="text" value="Taylor Swift" />
+    <input id="btnGo" type="button" value="Go" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        $("#btnGo").click(function(){
+            location = "/Playlist/Index/" + encodeURI($("#txtName").val());
+        })
+    </script>
+</div>

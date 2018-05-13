@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadySetGo", "ReadySetGo\ReadySetGo.csproj", "{1F1CD3BF-87E3-476D-8541-824968878000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadySetGo.Library", "ReadySetGo.Library\ReadySetGo.Library.csproj", "{72FD023A-C65D-442A-8DE5-91BBED7530C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadySetGo.Tests", "ReadySetGo.Tests\ReadySetGo.Tests.csproj", "{6279998E-6631-4BF5-BAF4-446CEA139AC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F1CD3BF-87E3-476D-8541-824968878000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F1CD3BF-87E3-476D-8541-824968878000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F1CD3BF-87E3-476D-8541-824968878000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F1CD3BF-87E3-476D-8541-824968878000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72FD023A-C65D-442A-8DE5-91BBED7530C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FD023A-C65D-442A-8DE5-91BBED7530C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FD023A-C65D-442A-8DE5-91BBED7530C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FD023A-C65D-442A-8DE5-91BBED7530C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6279998E-6631-4BF5-BAF4-446CEA139AC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6279998E-6631-4BF5-BAF4-446CEA139AC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6279998E-6631-4BF5-BAF4-446CEA139AC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6279998E-6631-4BF5-BAF4-446CEA139AC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
