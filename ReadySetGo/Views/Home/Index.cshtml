@@ -19,8 +19,8 @@
         width: 50%;
     }
 
-    .songName {
-        
+    .formSpacer {
+        padding-left: 20px;
     }
 
     .songCount {
@@ -37,16 +37,28 @@
             Artist Name: 
             @Html.TextBoxFor(m => m.ArtistName)
         </label>
-
+        <span class="formSpacer"></span>
         <label>
             Maximum concerts to include: 
             @Html.TextBoxFor(m => m.ConcertCount)
         </label>
-        <input type="submit" value="Go" />
+        <span class="formSpacer"></span>
+        <button type="submit" class="btn btn-success">Go</button>
     }
+
+    if (Model.ArtistFound.HasValue && Model.ArtistFound.Value == false) {
+    <p>
+        No artist found with that name!
+    </p>
+}
 }
 </div>
-@if (Model.Songs != null) {
+@if (Model.SongsFound.HasValue && Model.SongsFound.Value == false) {
+    <p>
+        No songs found!
+    </p>
+}
+@if (Model.SongsFound.HasValue && Model.SongsFound.Value == true) {
     <br />
     <hr />  
     <div class="outputDetails">

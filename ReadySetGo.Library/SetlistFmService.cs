@@ -24,11 +24,18 @@ namespace ReadySetGo.Library
 
         public Artist SearchArtist(string artistName)
         {
-            var response = Client.GetStringAsync("https://api.setlist.fm/rest/1.0/search/artists?sort=relevance&artistName=" + artistName).Result;
+            try
+            {
+                var response = Client.GetStringAsync("https://api.setlist.fm/rest/1.0/search/artists?sort=relevance&artistName=" + artistName).Result;
 
-            var searchArtistResponse = JsonConvert.DeserializeObject<SearchArtistResponse>(response);
+                var searchArtistResponse = JsonConvert.DeserializeObject<SearchArtistResponse>(response);
 
-            return searchArtistResponse.Artists.First();
+                return searchArtistResponse.Artists.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public List<Setlist> GetSetlists(string mbid, int concertCount, out int actualCount)

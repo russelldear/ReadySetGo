@@ -29,12 +29,34 @@ namespace ReadySetGo.Controllers
         {
             var playlistResult = _setlistBuilder.CreateSetlist(model.ArtistName, model.ConcertCount);
 
+            if (playlistResult.ArtistFound.HasValue && playlistResult.ArtistFound.Value == false)
+            {
+                return View("Index", new HomeModel
+                {
+                    ArtistName = WebUtility.UrlDecode(playlistResult.ArtistName),
+                    ConcertCount = model.ConcertCount,
+                    ArtistFound = false
+                });
+            }
+
+            if (playlistResult.SongsFound.HasValue && playlistResult.SongsFound.Value == false)
+            {
+                return View("Index", new HomeModel
+                {
+                    ArtistName = WebUtility.UrlDecode(playlistResult.ArtistName),
+                    ConcertCount = model.ConcertCount,
+                    SongsFound = false
+                });
+            }
+
             return View("Index", new HomeModel
             {
                 ArtistName = WebUtility.UrlDecode(playlistResult.ArtistName),
                 ConcertCount = model.ConcertCount,
                 ActualCount = playlistResult.ActualCount,
-                Songs = playlistResult.Songs
+                Songs = playlistResult.Songs,
+                ArtistFound = true,
+                SongsFound = true
             });
         }
 

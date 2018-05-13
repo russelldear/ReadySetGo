@@ -20,15 +20,27 @@ namespace ReadySetGo.Library
 
             var artist = _setlistFmService.SearchArtist(artistName);
 
+            if (artist == null)
+            {
+                return new PlaylistResult { ArtistFound = false };
+            }
+
             var setlists = _setlistFmService.GetSetlists(artist.Mbid, concertCount, out actualCount)
                                             .Where(s => s.SetlistSets != null && s.SetlistSets.Sets.Any());
 
             var songSetlists = GetSongsForSetlists(setlists);
 
+            if (!songSetlists.Any(s => s.Any()))
+            {
+                return new PlaylistResult { SongsFound = false };
+            }
+
             var songs = RiffleAndDeduplicate(songSetlists);
 
             return new PlaylistResult
             {
+                ArtistFound = true,
+                SongsFound = true,  
                 ArtistName = artist.Name,
                 Songs = songs,
                 ActualCount = actualCount
