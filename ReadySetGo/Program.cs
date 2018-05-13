@@ -19,7 +19,14 @@ namespace ReadySetGo
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                   .UseStartup<Startup>()
+                   .Build();
+
+        //public static IWebHost BuildWebHost(string[] args) =>
+            //WebHost.CreateDefaultBuilder(args)
+                   //.UseUrls("http://localhost:80/")
+                   //.UseIISIntegration()
+                   //.UseStartup<Startup>()
+                   //.Build();
     }
 }
