@@ -51,11 +51,6 @@
             No artist found with that name!
         </p>
     }
-
-    using (Html.BeginForm("Spotify", "Home", FormMethod.Post))
-    {
-        <button type="submit" class="btn btn-success">Go</button>
-    }
 }
 </div>
 @if (Model.SongsFound.HasValue && Model.SongsFound.Value == false) {
@@ -71,6 +66,13 @@
             Here's a playlist of songs @Model.ArtistName might play, based on the last @Model.ActualCount concerts 
             @(Model.ActualCount < Model.ConcertCount ? "(that's all there is!)" : ""):
         </p>
+    
+        @using (Html.BeginForm("Spotify", "Home", FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-success">Create Spotify Playlist</button>
+        }
+    
+        <br />
 
         <table class="playlist table-striped">
             <tr>

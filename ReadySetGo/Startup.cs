@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReadySetGo.Library;
+using ReadySetGo.Models;
 
 namespace ReadySetGo
 {
@@ -24,9 +25,13 @@ namespace ReadySetGo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services.AddTransient<ISetlistBuilder, SetlistBuilder>();
             services.AddTransient<ISetlistFmService, SetlistFmService>();
+
+            services.Configure<SetlistConfig>(Configuration.GetSection("SetlistConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +47,8 @@ namespace ReadySetGo
             }
 
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
