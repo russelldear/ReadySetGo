@@ -96,7 +96,7 @@ namespace ReadySetGo.Controllers
 
             var playlist = HttpContext.Session.GetObjectFromJson<PlaylistResult>("playlist");
 
-            var playlistUrl = _spotifyService.CreatePlaylist(token, playlist);
+            playlist.Url = _spotifyService.CreatePlaylist(token, playlist);
 
             return View("Index", playlist.ToHomeModel());
         }

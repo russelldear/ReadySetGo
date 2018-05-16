@@ -70,6 +70,11 @@
         @using (Html.BeginForm("Spotify", "Home", FormMethod.Post))
         {
             <button type="submit" class="btn btn-success">Create Spotify Playlist</button>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Url))
+            {
+                <a href=@Model.Url>Spotify Playlist</a>
+            }
         }
     
         <br />

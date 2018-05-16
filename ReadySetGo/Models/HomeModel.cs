@@ -18,6 +18,8 @@ namespace ReadySetGo.Models
         public int ActualCount { get; set; }
 
         public List<Song> Songs { get; set; }
+
+        public string Url { get; set; }
     }
 
     public static class ModelExtensions
@@ -45,6 +47,8 @@ namespace ReadySetGo.Models
                 target.ArtistFound = true;
                 target.SongsFound = true;
             }
+
+            target.Url = source.Url;
 
             return target;
         }

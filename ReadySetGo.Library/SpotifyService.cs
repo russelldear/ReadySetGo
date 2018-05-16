@@ -49,7 +49,7 @@ namespace ReadySetGo.Library
 
             SetTracks(user, createdPlaylist, tracklist);
 
-            return createdPlaylist.Href;
+            return createdPlaylist.ExternalUrls.Spotify;
         }
 
         private SpotifyUser GetUser()

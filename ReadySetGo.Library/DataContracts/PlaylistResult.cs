@@ -16,5 +16,7 @@ namespace ReadySetGo.Library.DataContracts
         public bool? ArtistFound { get; set; }
 
         public bool? SongsFound { get; set; }
+
+        public string Url { get; set; }
     }
 }
