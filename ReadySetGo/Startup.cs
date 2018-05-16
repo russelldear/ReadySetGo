@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using ReadySetGo.Library;
 using ReadySetGo.Models;
@@ -30,6 +32,9 @@ namespace ReadySetGo
 
             services.AddTransient<ISetlistBuilder, SetlistBuilder>();
             services.AddTransient<ISetlistFmService, SetlistFmService>();
+            services.AddTransient<ISpotifyService, SpotifyService>();
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.Configure<SetlistConfig>(Configuration.GetSection("SetlistConfig"));
         }

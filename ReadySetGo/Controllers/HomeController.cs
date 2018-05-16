@@ -17,16 +17,16 @@ namespace ReadySetGo.Controllers
     public class HomeController : Controller
     {
         private readonly IOptions<SetlistConfig> _config;
-
         private readonly ILogger<HomeController> _log;
-
         private readonly ISetlistBuilder _setlistBuilder;
+        private readonly ISpotifyService _spotifyService;
 
-        public HomeController(IOptions<SetlistConfig> config, ILogger<HomeController> log, ISetlistBuilder setlistBuilder)
+        public HomeController(IOptions<SetlistConfig> config, ILogger<HomeController> log, ISetlistBuilder setlistBuilder, ISpotifyService spotifyService)
         {
             _config = config;
             _log = log;
             _setlistBuilder = setlistBuilder;
+            _spotifyService = spotifyService;
         }
 
         [HttpGet]
@@ -42,8 +42,6 @@ namespace ReadySetGo.Controllers
         [HttpPost]
         public ActionResult Post(HomeModel model, string returnUrl)
         {
-            _log.LogInformation("Got here.");
-
             var playlistResult = _setlistBuilder.CreateSetlist(model.ArtistName, model.ConcertCount);
 
             HttpContext.Session.SetObjectAsJson("playlist", playlistResult);
@@ -54,11 +52,11 @@ namespace ReadySetGo.Controllers
         [HttpPost]
         public ActionResult Spotify(HomeModel model, string returnUrl)
         {
-            //var host = "localhost";
-            var host = "russelldear.ddns.net";
+            var host = "localhost";
+            //var host = "russelldear.ddns.net";
 
-            //var port = "5001";
-            var port = "8999";
+            var port = "5001";
+            //var port = "8999";
 
             var url = $"https://accounts.spotify.com/authorize/?" +
                 $"client_id={_config.Value.ClientId}&" +
@@ -72,6 +70,8 @@ namespace ReadySetGo.Controllers
 
         public ActionResult Callback(string code, string state, string error)
         {
+            TokenResponse token = null;
+
             var client = new HttpClient();
 
             var body = $"client_id={_config.Value.ClientId}&" +
@@ -86,15 +86,17 @@ namespace ReadySetGo.Controllers
             {
                 var result = content.ReadAsStringAsync().Result;
 
-                var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(result);
+                token = JsonConvert.DeserializeObject<TokenResponse>(result);
 
-                if (!string.IsNullOrWhiteSpace(tokenResponse.AccessToken))
+                if (!string.IsNullOrWhiteSpace(token.AccessToken))
                 {
-                    HttpContext.Session.SetObjectAsJson("tokenResponse", tokenResponse);
+                    HttpContext.Session.SetObjectAsJson("tokenResponse", token);
                 }
             }
 
             var playlist = HttpContext.Session.GetObjectFromJson<PlaylistResult>("playlist");
+
+            var playlistUrl = _spotifyService.CreatePlaylist(token, playlist);
 
             return View("Index", playlist.ToHomeModel());
         }

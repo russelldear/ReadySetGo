@@ -24,8 +24,8 @@ namespace ReadySetGo
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                   .UseUrls("http://localhost:80/")
-                   .UseIISIntegration()
+                   //.UseUrls("http://localhost:80/")
+                   //.UseIISIntegration()
                    .UseStartup<Startup>()
                    .Build();
     }
