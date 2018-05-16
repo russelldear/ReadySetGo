@@ -23,9 +23,6 @@ namespace ReadySetGo.Library.DataContracts
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("images")]
-        public object[] Images { get; set; }
-
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -46,12 +43,6 @@ namespace ReadySetGo.Library.DataContracts
 
         [JsonProperty("uri")]
         public string Uri { get; set; }
-    }
-
-    public partial class ExternalUrls
-    {
-        [JsonProperty("spotify")]
-        public string Spotify { get; set; }
     }
 
     public partial class Followers
@@ -79,29 +70,5 @@ namespace ReadySetGo.Library.DataContracts
 
         [JsonProperty("uri")]
         public string Uri { get; set; }
-    }
-
-    public partial class Tracks
-    {
-        [JsonProperty("href")]
-        public string Href { get; set; }
-
-        [JsonProperty("items")]
-        public object[] Items { get; set; }
-
-        [JsonProperty("limit")]
-        public long Limit { get; set; }
-
-        [JsonProperty("next")]
-        public object Next { get; set; }
-
-        [JsonProperty("offset")]
-        public long Offset { get; set; }
-
-        [JsonProperty("previous")]
-        public object Previous { get; set; }
-
-        [JsonProperty("total")]
-        public long Total { get; set; }
     }
 }

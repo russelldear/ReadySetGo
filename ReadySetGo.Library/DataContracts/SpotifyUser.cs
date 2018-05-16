@@ -29,9 +29,6 @@ namespace ReadySetGo.Library.DataContracts
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("images")]
-        public Image[] Images { get; set; }
-
         [JsonProperty("product")]
         public string Product { get; set; }
 
@@ -40,17 +37,5 @@ namespace ReadySetGo.Library.DataContracts
 
         [JsonProperty("uri")]
         public string Uri { get; set; }
-    }
-
-    public partial class Image
-    {
-        [JsonProperty("height")]
-        public object Height { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("width")]
-        public object Width { get; set; }
     }
 }
