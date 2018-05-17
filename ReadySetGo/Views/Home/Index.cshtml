@@ -22,14 +22,25 @@
         background-size: cover;
     }
 
+    .headerLine {
+        font-family: 'Roboto', sans-serif; 
+        font-size: 60px;
+        font-weight: 900;
+    }
+
     .formContainer {
         width: 100%;
     }
 
     @@media screen and (max-width: 1150px) {
-        <!--.formContainer {
-            width: 30%;
-        }-->
+        label {
+            width: 100%;
+            padding-top: 10px;
+        }
+
+        .formSpacer {
+            width: 100%;
+        }
     }
     
     .inputDetails {
@@ -41,6 +52,18 @@
         margin: 0;
     }
 
+    span.left {
+        float: left;
+    }
+
+    span.right {
+        float: right;
+    }
+
+    .spotify {
+        width: 50%;
+    }
+
     table.playlist {
         width: 50%;
         border: 5px solid #D3D3D3;
@@ -49,6 +72,15 @@
     @@media screen and (max-width: 1150px) {
         table.playlist {
             width: 100%;
+        }
+
+        .spotify {
+            width: 100%;
+        }
+
+        .goButton {
+            display: block;
+            padding-top: 10px;
         }
     }
     
@@ -60,9 +92,14 @@
         background-color: #fff;
     }
 
+    tr {
+        opacity: 0.9;
+    }
+    
     th, td {
         valign: middle;
         width: 50%;
+        opacity: 0.8;
     }
 
     .formSpacer {
@@ -74,7 +111,8 @@
     }
     
 </style>
-
+<div class="headerLine">ReadySetGo</div>
+<div>Choose an artist to get a setlist of the songs most likely to be played at their next gig - then generate a playlist for that set in your Spotify account.</div>
 <div class="inputDetails">
 @{
     using (Html.BeginForm("Post", "Home", FormMethod.Post))
@@ -85,11 +123,11 @@
             @Html.TextBoxFor(m => m.ArtistName, new { id = "txtArtist" })
             <span class="formSpacer"></span>
         
-            <label for="txtMaxConcerts">Maximum concerts to include</label>
+            <label for="txtMaxConcerts">Previous concerts to consider</label>
             @Html.TextBoxFor(m => m.ConcertCount, new { id = "txtMaxConcerts" })
             <span class="formSpacer"></span>
         
-            <button type="submit" class="btn btn-success">Go</button>
+            <span class="goButton"><button type="submit" class="btn btn-success">Go</button></span>
         
             @if (Model.ArtistFound.HasValue && Model.ArtistFound.Value == false) {
                 <p>
@@ -109,7 +147,7 @@
 </div>
 
 @if (Model.SongsFound.HasValue && Model.SongsFound.Value == true) {
-    <br />
+
     <hr />  
     <div class="outputDetails">
         <p>
@@ -119,14 +157,16 @@
     
         @using (Html.BeginForm("Spotify", "Home", FormMethod.Post))
         {
-            <button type="submit" class="btn btn-success">Create Spotify Playlist</button>
+            <div class="spotify">
+                <span class="left"><button type="submit" class="btn btn-success">Create Spotify Playlist</button></span>
 
-            @if (!string.IsNullOrWhiteSpace(Model.Url))
-            {
-                <span>Playlist created! Here you go: <a href=@Model.Url> @Model.ArtistName </a> </span>
-            }
+                @if (!string.IsNullOrWhiteSpace(Model.Url))
+                {
+                    <span class="right">Playlist created! Here you go: <a href=@Model.Url> @Model.ArtistName </a> </span>
+                }
+            </div>
         }
-    
+        <div style="clear: both;"></div>
         <br />
 
         <table class="playlist table-striped">
