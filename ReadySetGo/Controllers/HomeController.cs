@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,6 @@ using Newtonsoft.Json;
 using ReadySetGo.Library;
 using ReadySetGo.Library.DataContracts;
 using ReadySetGo.Models;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace ReadySetGo.Controllers
@@ -52,16 +50,10 @@ namespace ReadySetGo.Controllers
         [HttpPost]
         public ActionResult Spotify(HomeModel model, string returnUrl)
         {
-            var host = "localhost";
-            //var host = "russelldear.ddns.net";
-
-            var port = "5001";
-            //var port = "8999";
-
             var url = $"https://accounts.spotify.com/authorize/?" +
                 $"client_id={_config.Value.ClientId}&" +
                 $"response_type=code&" +
-                $"redirect_uri=http%3A%2F%2F{host}%3A{port}%2Fhome%2Fcallback&" +
+                $"redirect_uri=http%3A%2F%2F{_config.Value.CallbackHost}%3A{_config.Value.CallbackPort}%2Fhome%2Fcallback&" +
                 $"scope=playlist-modify-private&" +
                 $"state=34fFs29kd09";
 
@@ -78,7 +70,7 @@ namespace ReadySetGo.Controllers
                 $"client_secret={_config.Value.ClientSecret}&" +
                 $"grant_type=authorization_code&" +
                 $"code={code}&" +
-                $"redirect_uri=http%3A%2F%2Flocalhost%3A5001%2Fhome%2Fcallback";
+                $"redirect_uri=http%3A%2F%2F{_config.Value.CallbackHost}%3A{_config.Value.CallbackPort}%2Fhome%2Fcallback";
 
             var response = client.PostAsync("https://accounts.spotify.com/api/token", new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
 

@@ -1,6 +1,37 @@
 ﻿@model HomeModel
 
 <style>
+
+    body, html {
+        height: 100%;
+    }
+
+    html {
+        overflow: hidden;
+    }
+
+    body {
+        overflow: scroll;
+    }
+
+    .bg { 
+        background-image: url("../../Images/RSG-1.jpg");
+        height: 100%; 
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .formContainer {
+        width: 100%;
+    }
+
+    @@media screen and (max-width: 1150px) {
+        <!--.formContainer {
+            width: 30%;
+        }-->
+    }
+    
     .inputDetails {
         padding-top: 20px;
     }
@@ -11,7 +42,22 @@
     }
 
     table.playlist {
-        width: 600px;
+        width: 50%;
+        border: 5px solid #D3D3D3;
+    }
+
+    @@media screen and (max-width: 1150px) {
+        table.playlist {
+            width: 100%;
+        }
+    }
+    
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+    
+    .table-striped > tbody > tr:nth-of-type(even) {
+        background-color: #fff;
     }
 
     th, td {
@@ -33,31 +79,35 @@
 @{
     using (Html.BeginForm("Post", "Home", FormMethod.Post))
     {
-        <label>
-            Artist Name: 
-            @Html.TextBoxFor(m => m.ArtistName)
-        </label>
-        <span class="formSpacer"></span>
-        <label>
-            Maximum concerts to include: 
-            @Html.TextBoxFor(m => m.ConcertCount)
-        </label>
-        <span class="formSpacer"></span>
-        <button type="submit" class="btn btn-success">Go</button>
-    }
+        <div class="formContainer">
+        
+            <label for="txtArtist">Artist Name</label>
+            @Html.TextBoxFor(m => m.ArtistName, new { id = "txtArtist" })
+            <span class="formSpacer"></span>
+        
+            <label for="txtMaxConcerts">Maximum concerts to include</label>
+            @Html.TextBoxFor(m => m.ConcertCount, new { id = "txtMaxConcerts" })
+            <span class="formSpacer"></span>
+        
+            <button type="submit" class="btn btn-success">Go</button>
+        
+            @if (Model.ArtistFound.HasValue && Model.ArtistFound.Value == false) {
+                <p>
+                    No artist found with that name!
+                </p>
+            }
 
-    if (Model.ArtistFound.HasValue && Model.ArtistFound.Value == false) {
-        <p>
-            No artist found with that name!
-        </p>
+            @if (Model.SongsFound.HasValue && Model.SongsFound.Value == false) {
+                <p>
+                    No songs found!
+                </p>
+            }
+        
+        </div>
     }
 }
 </div>
-@if (Model.SongsFound.HasValue && Model.SongsFound.Value == false) {
-    <p>
-        No songs found!
-    </p>
-}
+
 @if (Model.SongsFound.HasValue && Model.SongsFound.Value == true) {
     <br />
     <hr />  
@@ -73,7 +123,7 @@
 
             @if (!string.IsNullOrWhiteSpace(Model.Url))
             {
-                <a href=@Model.Url>Spotify Playlist</a>
+                <span>Playlist created! Here you go: <a href=@Model.Url> @Model.ArtistName </a> </span>
             }
         }
     

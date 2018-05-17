@@ -65,7 +65,7 @@ namespace ReadySetGo.Library
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"/v1/users/{user.Id}/playlists")
             {
-                Content = new StringContent($"{{\"name\":\"ReadySetGo-{artistName}\", \"public\":false}}",
+                Content = new StringContent($"{{\"name\":\"{artistName} - ReadySetGo\", \"public\":false}}",
                                                 Encoding.UTF8,
                                                 "application/json")
             };
