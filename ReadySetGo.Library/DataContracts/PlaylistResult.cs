@@ -18,5 +18,10 @@ namespace ReadySetGo.Library.DataContracts
         public bool? SongsFound { get; set; }
 
         public string Url { get; set; }
+
+        public DateTime RequestDateTime
+        {
+            get { return DateTime.Now; }
+        }
     }
 }

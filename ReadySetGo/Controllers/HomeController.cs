@@ -18,13 +18,15 @@ namespace ReadySetGo.Controllers
         private readonly ILogger<HomeController> _log;
         private readonly ISetlistBuilder _setlistBuilder;
         private readonly ISpotifyService _spotifyService;
+        private readonly IRequestLogger _requestLogger;
 
-        public HomeController(IOptions<SetlistConfig> config, ILogger<HomeController> log, ISetlistBuilder setlistBuilder, ISpotifyService spotifyService)
+        public HomeController(IOptions<SetlistConfig> config, ILogger<HomeController> log, ISetlistBuilder setlistBuilder, ISpotifyService spotifyService, IRequestLogger requestLogger)
         {
             _config = config;
             _log = log;
             _setlistBuilder = setlistBuilder;
             _spotifyService = spotifyService;
+            _requestLogger = requestLogger;
         }
 
         [HttpGet]
@@ -41,6 +43,8 @@ namespace ReadySetGo.Controllers
         public ActionResult Post(HomeModel model, string returnUrl)
         {
             var playlistResult = _setlistBuilder.CreateSetlist(model.ArtistName, model.ConcertCount);
+
+            _requestLogger.LogSetlist(playlistResult);
 
             HttpContext.Session.SetObjectAsJson("playlist", playlistResult);
 

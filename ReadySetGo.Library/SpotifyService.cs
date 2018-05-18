@@ -13,12 +13,13 @@ namespace ReadySetGo.Library
     public class SpotifyService : ISpotifyService
     {
         readonly IHttpContextAccessor _httpContextAccessor;
-
+        private readonly IRequestLogger _requestLogger;
         private readonly HttpClient _client;
 
-        public SpotifyService(IHttpContextAccessor httpContextAccessor)
+        public SpotifyService(IHttpContextAccessor httpContextAccessor, IRequestLogger requestLogger)
         {
             _httpContextAccessor = httpContextAccessor;
+            _requestLogger = requestLogger;
 
             _client = new HttpClient();
 
@@ -30,6 +31,8 @@ namespace ReadySetGo.Library
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.AccessToken}");
 
             var user = GetUser();
+
+            _requestLogger.LogSpotify(user, playlist, token);
 
             var createdPlaylist = CreateNew(user, playlist.ArtistName);
 

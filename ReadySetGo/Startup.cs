@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using ReadySetGo.Library;
+using ReadySetGo.Library.DataContracts;
 using ReadySetGo.Models;
 
 namespace ReadySetGo
@@ -35,6 +36,7 @@ namespace ReadySetGo
             services.AddTransient<ISetlistBuilder, SetlistBuilder>();
             services.AddTransient<ISetlistFmService, SetlistFmService>();
             services.AddTransient<ISpotifyService, SpotifyService>();
+            services.AddTransient<IRequestLogger, RequestLogger>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
