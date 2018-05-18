@@ -109,8 +109,26 @@
     .songCount {
         text-align: center;
     }
+
+    .fa-circle-o-notch {
+        display: none;
+    }
+
+    .showLoader {
+        display: inline-block;
+    }
     
 </style>
+<script>
+    function getSetlist() {
+        var loader = document.getElementById("setlistLoader");
+        loader.className += " showLoader";
+    }
+    function getSpotify() {
+        var loader = document.getElementById("spotifyLoader");
+        loader.className += " showLoader";
+    }
+</script>
 <div class="headerLine">ReadySetGo</div>
 <div>Choose an artist to get a setlist of the songs most likely to be played at their next gig - then generate a playlist for that set in your Spotify account.</div>
 <div class="inputDetails">
@@ -127,7 +145,10 @@
             @Html.TextBoxFor(m => m.ConcertCount, new { id = "txtMaxConcerts" })
             <span class="formSpacer"></span>
         
-            <span class="goButton"><button type="submit" class="btn btn-success">Go</button></span>
+            <span class="goButton">
+                <button type="submit" class="btn btn-success" onclick="getSetlist();">Go</button>
+                <i id="setlistLoader" class="fa fa-circle-o-notch fa-spin" style="font-size:14px;"></i>
+            </span>
         
             @if (Model.ArtistFound.HasValue && Model.ArtistFound.Value == false) {
                 <p>
@@ -151,18 +172,21 @@
     <hr />  
     <div class="outputDetails">
         <p>
-            Here's a playlist of songs @Model.ArtistName might play, based on the last @Model.ActualCount concerts 
+            Here's a setlist of songs @Model.ArtistName might play, based on the last @Model.ActualCount concerts 
             @(Model.ActualCount < Model.ConcertCount ? "(that's all there is!)" : ""):
         </p>
     
         @using (Html.BeginForm("Spotify", "Home", FormMethod.Post))
         {
             <div class="spotify">
-                <span class="left"><button type="submit" class="btn btn-success">Create Spotify Playlist</button></span>
+                <span class="left">
+                    <button type="submit" class="btn btn-success" onclick="getSpotify();">Create Spotify Playlist</button>
+                    <i id="spotifyLoader" class="fa fa-circle-o-notch fa-spin" style="font-size:14px"></i>
+                </span>
 
                 @if (!string.IsNullOrWhiteSpace(Model.Url))
                 {
-                    <span class="right">Playlist created! Here you go: <a href=@Model.Url> @Model.ArtistName </a> </span>
+                    <span class="right">Playlist created! Here you go: <a target="_blank" href=@Model.Url> @Model.ArtistName </a> </span>
                 }
             </div>
         }
