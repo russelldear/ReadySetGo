@@ -50,10 +50,12 @@ namespace ReadySetGo.Controllers
         [HttpPost]
         public ActionResult Spotify(HomeModel model, string returnUrl)
         {
+            var host = HttpContext.Request.Host;
+
             var url = $"https://accounts.spotify.com/authorize/?" +
                 $"client_id={_config.Value.ClientId}&" +
                 $"response_type=code&" +
-                $"redirect_uri=http%3A%2F%2F{_config.Value.CallbackHost}%3A{_config.Value.CallbackPort}%2Fhome%2Fcallback&" +
+                $"redirect_uri=http%3A%2F%2F{host}%2Fhome%2Fcallback&" +
                 $"scope=playlist-modify-private&" +
                 $"state=34fFs29kd09";
 
@@ -64,13 +66,15 @@ namespace ReadySetGo.Controllers
         {
             TokenResponse token = null;
 
+            var host = HttpContext.Request.Host;
+
             var client = new HttpClient();
 
             var body = $"client_id={_config.Value.ClientId}&" +
                 $"client_secret={_config.Value.ClientSecret}&" +
                 $"grant_type=authorization_code&" +
                 $"code={code}&" +
-                $"redirect_uri=http%3A%2F%2F{_config.Value.CallbackHost}%3A{_config.Value.CallbackPort}%2Fhome%2Fcallback";
+                $"redirect_uri=http%3A%2F%2F{host}%2Fhome%2Fcallback";
 
             var response = client.PostAsync("https://accounts.spotify.com/api/token", new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
 
