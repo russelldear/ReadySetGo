@@ -42,11 +42,21 @@ namespace ReadySetGo.Library
             {
                 try
                 {
-                    tracklist.Uris.Add(GetTrack(playlist.ArtistName, song, createdPlaylist).Uri);
+                    tracklist.Uris.Add(GetTrack(playlist.ArtistName, song.Name).Uri);
                 }
                 catch (Exception)
                 {
+                    try
+                    {
+                        foreach (var songName in song.Name.Split("/"))
+                        {
+                            tracklist.Uris.Add(GetTrack(playlist.ArtistName, songName.Trim()).Uri);
+                        }
+                    }
+                    catch (Exception)
+                    {
 
+                    }
                 }
             }
 
@@ -80,9 +90,9 @@ namespace ReadySetGo.Library
             return createdPlaylist;
         }
 
-        private Item GetTrack(string artistName, Song song, SpotifyPlaylist createdPlaylist)
+        private Item GetTrack(string artistName, string songName)
         {
-            var response = _client.GetAsync($"/v1/search?q={WebUtility.UrlEncode(song.Name)}%20artist:%22{WebUtility.UrlEncode(artistName)}%22&type=track&limit=1").Result;
+            var response = _client.GetAsync($"/v1/search?q={WebUtility.UrlEncode(songName)}%20artist:%22{WebUtility.UrlEncode(artistName)}%22&type=track&limit=1").Result;
 
             var searchResult = JsonConvert.DeserializeObject<SearchResult>(response.Content.ReadAsStringAsync().Result);
 
