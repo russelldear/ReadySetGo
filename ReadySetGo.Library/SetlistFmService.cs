@@ -46,7 +46,7 @@ namespace ReadySetGo.Library
 
             var setlistResponse = JsonConvert.DeserializeObject<SetlistResponse>(response);
 
-            result.AddRange(setlistResponse.Setlists);
+            result.AddRange(setlistResponse.Setlists.Where(s => GetEventDate(s.EventDate) <= DateTime.Now));
 
             var totalConcerts = setlistResponse.Total;
 
@@ -66,6 +66,13 @@ namespace ReadySetGo.Library
             actualCount = Math.Min(result.Count, concertCount);
 
             return result.Take(concertCount).ToList();
+        }
+
+        private DateTime GetEventDate(string eventDateString)
+        {
+            var bits = eventDateString.Split("-");
+
+            return new DateTime(int.Parse(bits[2]), int.Parse(bits[1]), int.Parse(bits[0]));
         }
     }
 }

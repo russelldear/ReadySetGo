@@ -32,7 +32,7 @@ namespace ReadySetGo.Library
 
             if (!songSetlists.Any(s => s.Any()))
             {
-                return new PlaylistResult { SongsFound = false };
+                return new PlaylistResult { ArtistName = artistName, SongsFound = false };
             }
 
             var songs = RiffleAndDeduplicate(songSetlists);
