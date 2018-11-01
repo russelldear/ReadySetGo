@@ -46,7 +46,11 @@ namespace ReadySetGo.Library
 
             var setlistResponse = JsonConvert.DeserializeObject<SetlistResponse>(response);
 
-            result.AddRange(setlistResponse.Setlists.Where(s => GetEventDate(s.EventDate) <= DateTime.Now));
+            var useableSetlists = setlistResponse.Setlists
+                                                 .Where(s => GetEventDate(s.EventDate) <= DateTime.Now)
+                                                 .Where(s => s.SetlistSets != null && s.SetlistSets.Sets.Any(set => set.Songs.Any()));
+
+            result.AddRange(useableSetlists);
 
             var totalConcerts = setlistResponse.Total;
 

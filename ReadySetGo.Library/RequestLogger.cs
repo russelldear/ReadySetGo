@@ -19,7 +19,7 @@ namespace ReadySetGo.Library
         
         public void LogSetlist(PlaylistResult playlistResult)
         {
-            var client = new AmazonDynamoDBClient(_config.Value.AccessKey, _config.Value.AccessKeySecret, RegionEndpoint.USEast1);
+            var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             var table = Table.LoadTable(client, "ReadySetGoSetlist");
             var jsonText = JsonConvert.SerializeObject(playlistResult);
             var item = Document.FromJson(jsonText);
@@ -31,7 +31,7 @@ namespace ReadySetGo.Library
         {
             var combinedLog = new CombinedLog { User = user, Playlist = playlistResult, Token = token };
 
-            var client = new AmazonDynamoDBClient(_config.Value.AccessKey, _config.Value.AccessKeySecret, RegionEndpoint.USEast1);
+            var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             var table = Table.LoadTable(client, "ReadySetGoSpotify");
             var jsonText = JsonConvert.SerializeObject(combinedLog);
             var item = Document.FromJson(jsonText);

@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  readysetgo:
+    image: ${DOCKER_REGISTRY}readysetgo
+    build:
+      context: .
+      dockerfile: ReadySetGo/Dockerfile
+    ports:
+      - "5001:5001"

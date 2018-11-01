@@ -25,8 +25,7 @@ namespace ReadySetGo.Library
                 return new PlaylistResult { ArtistFound = false };
             }
 
-            var setlists = _setlistFmService.GetSetlists(artist.Mbid, requestedCount, out actualCount)
-                                            .Where(s => s.SetlistSets != null && s.SetlistSets.Sets.Any());
+            var setlists = _setlistFmService.GetSetlists(artist.Mbid, requestedCount, out actualCount);
 
             var songSetlists = GetSongsForSetlists(setlists);
 
