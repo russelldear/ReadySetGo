@@ -4,6 +4,8 @@ docker build -t readysetgo .
 docker tag readysetgo:latest 540629508292.dkr.ecr.us-east-1.amazonaws.com/readysetgo:latest
 docker push 540629508292.dkr.ecr.us-east-1.amazonaws.com/readysetgo:latest
 
+add-apt-repository ppa:eugenesan/ppa
+apt-get update
 apt-get install jq -y
 
 TASK=$(aws ecs describe-task-definition --task-definition readysetgo --output json | jq '.taskDefinition.containerDefinitions')
