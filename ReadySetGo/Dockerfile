@@ -1,6 +1,6 @@
 FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 5002
 
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
@@ -17,7 +17,7 @@ RUN dotnet publish ReadySetGo.csproj -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENV ASPNETCORE_URLS=http://*:5001
+ENV ASPNETCORE_URLS=http://*:5002
 ENV SPOTIFY_CLIENT_ID=4b0fcb4ba28842529cc2cf6a001d26ab
 ENV SPOTIFY_CLIENT_SECRET=be64a5813f0f416380308d095031fd23
 EXPOSE 5001
