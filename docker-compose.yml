@@ -7,4 +7,4 @@ services:
       context: .
       dockerfile: ReadySetGo/Dockerfile
     ports:
-      - "5001:5001"
+      - "5002:5002"
