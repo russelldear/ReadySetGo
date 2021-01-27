@@ -17,7 +17,7 @@ namespace ReadySetGo
                 Environment.GetEnvironmentVariable("ReadySetGoLocation") == "Public")
             {
                 return WebHost.CreateDefaultBuilder(args)
-                              .UseUrls("http://localhost:80/")
+                              .UseUrls("http://localhost:5002/")
                               .UseIISIntegration()
                               .UseStartup<Startup>()
                               .Build();
